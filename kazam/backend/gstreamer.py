@@ -32,6 +32,8 @@ import multiprocessing
 os.environ["GST_DEBUG_DUMP_DOT_DIR"] = "/tmp"
 os.putenv("GST_DEBUG_DUMP_DOT_DIR", "/tmp")
 
+import gi
+gi.require_version('Gst', '1.0')
 from gi.repository import GObject, Gst
 
 from kazam.backend.prefs import *

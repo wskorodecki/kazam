@@ -196,40 +196,40 @@ class Prefs():
                     self.sound_files.append(f_file)
 
     def read_config(self):
-        self.audio_source = int(self.config.get("main", "audio_source"))
-        self.audio2_source = int(self.config.get("main", "audio2_source"))
-        self.main_x = int(self.config.get("main", "last_x"))
-        self.main_y = int(self.config.get("main", "last_y"))
-        self.countdown_timer = float(self.config.get("main", "counter"))
+        self.audio_source = int(self.config.get("main", "audio_source", ))
+        self.audio2_source = int(self.config.get("main", "audio2_source", ))
+        self.main_x = int(self.config.get("main", "last_x", ))
+        self.main_y = int(self.config.get("main", "last_y", ))
+        self.countdown_timer = float(self.config.get("main", "counter", ))
 
         #
         # Just in case this blows up in our face later
         #
         if self.countdown_timer > 10:
             self.countdown_timer = 10
-        self.framerate = float(self.config.get("main", "framerate"))
+        self.framerate = float(self.config.get("main", "framerate", ))
 
-        self.capture_cursor = self.config.getboolean("main", "capture_cursor")
-        self.capture_microphone = self.config.getboolean("main", "capture_microphone")
-        self.capture_speakers = self.config.getboolean("main", "capture_speakers")
+        self.capture_cursor = self.config.getboolean("main", "capture_cursor", )
+        self.capture_microphone = self.config.getboolean("main", "capture_microphone", )
+        self.capture_speakers = self.config.getboolean("main", "capture_speakers", )
 
-        self.capture_cursor_pic = self.config.getboolean("main", "capture_cursor_pic")
-        self.capture_borders_pic = self.config.getboolean("main", "capture_borders_pic")
+        self.capture_cursor_pic = self.config.getboolean("main", "capture_cursor_pic", )
+        self.capture_borders_pic = self.config.getboolean("main", "capture_borders_pic", )
 
-        self.countdown_splash = self.config.getboolean("main", "countdown_splash")
+        self.countdown_splash = self.config.getboolean("main", "countdown_splash", )
 
-        self.autosave_video = self.config.getboolean("main", "autosave_video")
-        self.autosave_video_dir = self.config.get("main", "autosave_video_dir")
-        self.autosave_video_file = self.config.get("main", "autosave_video_file")
+        self.autosave_video = self.config.getboolean("main", "autosave_video", )
+        self.autosave_video_dir = self.config.get("main", "autosave_video_dir", )
+        self.autosave_video_file = self.config.get("main", "autosave_video_file", )
 
-        self.autosave_picture = self.config.getboolean("main", "autosave_picture")
-        self.autosave_picture_dir = self.config.get("main", "autosave_picture_dir")
-        self.autosave_picture_file = self.config.get("main", "autosave_picture_file")
+        self.autosave_picture = self.config.getboolean("main", "autosave_picture", )
+        self.autosave_picture_dir = self.config.get("main", "autosave_picture_dir", )
+        self.autosave_picture_file = self.config.get("main", "autosave_picture_file", )
 
-        self.shutter_sound = self.config.getboolean("main", "shutter_sound")
-        self.shutter_type = int(self.config.get("main", "shutter_type"))
+        self.shutter_sound = self.config.getboolean("main", "shutter_sound", )
+        self.shutter_type = int(self.config.get("main", "shutter_type", ))
 
-        self.first_run = self.config.getboolean("main", "first_run")
+        self.first_run = self.config.getboolean("main", "first_run", )
 
         #
         # Determine which codec to use
@@ -250,7 +250,7 @@ class Prefs():
                 self.codec = CODEC_RAW
                 self.logger.debug("Setting RAW as default codec.")
         else:
-            self.codec = int(self.config.get("main", "codec"))
+            self.codec = int(self.config.get("main", "codec", ))
 
     def save_config(self):
         self.config.set("main", "capture_cursor", self.capture_cursor)

@@ -73,7 +73,9 @@ class KazamConfig(ConfigParser):
     CONFIGFILE = os.path.join(CONFIGDIR, "kazam.conf")
 
     def __init__(self):
-        ConfigParser.__init__(self, self.DEFAULTS[0]['keys'])
+        #ConfigParser.__init__(self, self.DEFAULTS[0]['keys'])
+        super().__init__()
+
         if not os.path.isdir(self.CONFIGDIR):
             os.makedirs(self.CONFIGDIR)
         if not os.path.isfile(self.CONFIGFILE):
@@ -98,9 +100,9 @@ class KazamConfig(ConfigParser):
                     if d_key == key:
                         return d_section["keys"][key]
 
-    def get(self, section, key):
+    def get(self, section, key, **kwargs):
         try:
-            return ConfigParser.get(self, section, key)
+            return super().get(section, key)
         except NoSectionError:
             default = self.find_default(section, key)
             self.set(section, key, default)
@@ -112,23 +114,23 @@ class KazamConfig(ConfigParser):
             self.write()
             return default
 
-    def getboolean(self, section, key):
-        val = self.get(section, key)
+    def getboolean(self, section, key, **kwargs):
+        val = self.get(section, key, )
         if val.lower() == 'true' or val.lower == "on" or val.lower() == "yes":
             return True
         else:
             return False
 
-    def set(self, section, option, value):
+    def set(self, section, option, value=None):
         # If the section referred to doesn't exist (rare case),
         # then create it
         if not self.has_section(section):
             self.add_section(section)
-        ConfigParser.set(self, section, option, str(value))
+        super().set(section, option, str(value))
 
-    def write(self):
+    def write(self, **kwargs):
         file_ = open(self.CONFIGFILE, "w")
-        ConfigParser.write(self, file_)
+        super().write(file_)
         file_.close()
 
 

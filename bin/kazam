@@ -29,6 +29,8 @@ import dbus.service
 from argparse import ArgumentParser
 from dbus.mainloop.glib import DBusGMainLoop
 
+import gi
+gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 class KazamService(dbus.service.Object):
@@ -59,9 +61,9 @@ if __name__ == "__main__":
 
     logger.debug("Logger intialized.")
 
-    if os.path.exists("./kazam") and os.path.exists("../data"):
+    if os.path.exists("./kazam") and os.path.exists("./data"):
         logger.warning("Running from local directory, AppIndicator icons could be missing.")
-        datadir = "../data"
+        datadir = "./data"
         sys.path.insert(0, "..")
     else:
         # A bit more flexible setting of datadir, it works
@@ -71,12 +73,26 @@ if __name__ == "__main__":
         datadir = curpath.split('bin/')[0] + "share/kazam/"
 
     try:
-        import platform
-        dist = platform.linux_distribution()
-    except:
-        # Fallback to the almighty Ubuntu 12.10 ;)
-        dist = ('Ubuntu', '12.10', 'quantal')
-        logger.warning("Failed to correctly detect operating system.")
+        import distro
+    except ImportError:
+        distro_tag = False
+    else:
+        distro_tag = True
+
+    if distro_tag:
+        # Use the distro external lib
+        # Why ?
+        # Because platform.linux_distribution is predicated in Python 3.5
+        dist = distro.linux_distribution()
+    else:
+        try:
+            # For Python < 3.5
+            import platform
+            dist = platform.linux_distribution()
+        except:
+            # Fallback to the almighty Ubuntu 12.10 ;)
+            dist = ('Ubuntu', '12.10', 'quantal')
+            logger.warning("Failed to correctly detect operating system.")
 
     from kazam.version import *
     version = "%(prog)s {0} '{1}'".format(VERSION, CODENAME)

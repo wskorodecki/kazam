@@ -1,5 +1,5 @@
 VERSION='1.4.4'
 CODENAME='NCC-80102'
-DISTRO='Ubuntu'
-RELEASE='14.04'
+DISTRO='Archlinux'
+RELEASE='rolling'
 
